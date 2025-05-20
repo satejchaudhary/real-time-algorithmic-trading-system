@@ -17,22 +17,19 @@ kubectl apply -f manifests/kafka-e11b.yaml
 
 # Install kafka-ui
 kubectl apply -f manifests/kafka-ui-all-in-one.yaml
-# Kafka UI is now running on port 8080 of the kubernates cluster
-# To access Kafka UI, we need to port forward the service to our local machine
-kubectl port-forward -n kafka svc/kafka-ui 8182:8080 &
-echo "Kafka UI is running at http://localhost:8182"
 
 
 
-# Port forward the following services to our local machine. 
-# Option 1: Use Rancher Desktop
-# Rancher Desktop > Port Forwarding
-# kafka-ui-port=8182
 
-# Running kubectl port-forward from the terminal also  works but needs to be redone every time the laptop sleeps and we restart.
+# Port forwarding once services are up
 
-kubectl port-forward -n kafka svc/kafka-ui 8182:8080 &
-echo "Kafka UI is running at http://localhost:8182"
-
+# Port forward kafka for producer and consumer connections
 kubectl port-forward -n kafka service/kafka-e11b-kafka-bootstrap 31092:31092 &
 echo "Kafka is running at localhost:31092"
+# Test by
+
+
+
+# portforward kafka-ui
+kubectl port-forward -n kafka svc/kafka-ui 8182:8080 &
+echo "Kafka UI is running at http://localhost:8182"
