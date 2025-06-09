@@ -23,11 +23,16 @@ kubectl apply -f manifests/kafka-ui-all-in-one.yaml
 
 # Port forwarding once services are up
 
-# Port forward kafka for producer and consumer connections
-kubectl port-forward -n kafka service/kafka-e11b-kafka-bootstrap 31092:31092 &
-echo "Kafka is running at localhost:31092"
-# Test by
+# Port forward kafka for producer and consumer connections is done in the kafka-e11b.yaml file
+# Even though  kafka is portforwarded to localhost:31092, it is not acceessibble via the borwser as kafka runs on kafka protocol not http or https.
+# The only wat to test kafka is 
+# 1. kafkakat at command line
+# 2. kafka-ui
+# 3. Python quixstreams
 
+# Use kafkacat to send a test message to kafka
+# echo "{'key': 'value'}" | kafkacat -b localhost:31092 -P -t test-topic
+# Confirm the messsage is received by looking at kafka-ui
 
 
 # portforward kafka-ui

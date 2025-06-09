@@ -52,6 +52,8 @@ def run(
 
 
 if __name__ == '__main__':
+
+    
     from trades.config import config
 
     # create object that can talk to the Kraken API and get us the trade data in real time
@@ -69,10 +71,30 @@ if __name__ == '__main__':
         raise ValueError(
             'Invalid value for live_or_historical. Must be "live" or "historical".'
         )
-
+    
     run(
         kafka_broker_address=config.kafka_broker_address,
         kafka_topic_name=config.kafka_topic_name,
         kraken_api=api,
         # kafka_topic_partitions=len(config.kafka_topic_partitions),
     )
+    
+    
+    
+    '''
+    
+    #For local testing
+    api = KrakenWebsocketAPI(product_ids=['BTC/USD'])
+    run(kafka_broker_adress='localhost:31092',
+        kafka_topic_name='trades',
+        kraken_api=api,)
+    '''
+
+
+    '''
+    ###For testing in kubernates
+    api = KrakenWebsocketAPI(product_ids=['BTC/USD'])
+    run(kafka_broker_address='kafka-e11b-kafka-bootstrap.kafka.svc.cluster.local:9092',
+    kafka_topic_name='trades',
+    kraken_api=api,)
+    '''
