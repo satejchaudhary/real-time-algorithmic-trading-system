@@ -26,7 +26,7 @@ def run(
     # Define a topic "my_topic" with JSON serialization
     topic = app.topic(
         name=kafka_topic_name,
-        value_serializer='json',
+        value_serializer="json",
         # You can use the from quixstreams.models import TopicConfig to configure the topic, if the topic does not exist yet.
         # config=TopicConfig(replication_factor=1, num_partitions=kafka_topic_partitions)
     )
@@ -46,23 +46,21 @@ def run(
                 producer.produce(topic=topic.name, value=message.value, key=message.key)
 
                 # logger.info(f'Produced message to topic {topic.name}')
-                logger.info(f'Trade {event.to_dict()} pushed to Kafa')
+                logger.info(f"Trade {event.to_dict()} pushed to Kafa")
 
             # breakpoint()
 
 
-if __name__ == '__main__':
-
-    
+if __name__ == "__main__":
     from trades.config import config
 
     # create object that can talk to the Kraken API and get us the trade data in real time
-    if config.live_or_historical == 'live':
-        logger.info('Using live data from Kraken API')
+    if config.live_or_historical == "live":
+        logger.info("Using live data from Kraken API")
         api = KrakenWebsocketAPI(product_ids=config.product_ids)
 
-    elif config.live_or_historical == 'historical':
-        logger.info('Using historical data from Kraken API')
+    elif config.live_or_historical == "historical":
+        logger.info("Using historical data from Kraken API")
         api = KrakenRestAPI(
             product_id=config.product_ids[0],
             last_n_days=config.last_n_days,
@@ -71,30 +69,27 @@ if __name__ == '__main__':
         raise ValueError(
             'Invalid value for live_or_historical. Must be "live" or "historical".'
         )
-    
+
     run(
         kafka_broker_address=config.kafka_broker_address,
         kafka_topic_name=config.kafka_topic_name,
         kraken_api=api,
         # kafka_topic_partitions=len(config.kafka_topic_partitions),
     )
-    
-    
-    
-    '''
+
+    """
     
     #For local testing
     api = KrakenWebsocketAPI(product_ids=['BTC/USD'])
     run(kafka_broker_adress='localhost:31092',
         kafka_topic_name='trades',
         kraken_api=api,)
-    '''
+    """
 
-
-    '''
+    """
     ###For testing in kubernates
     api = KrakenWebsocketAPI(product_ids=['BTC/USD'])
     run(kafka_broker_address='kafka-e11b-kafka-bootstrap.kafka.svc.cluster.local:9092',
     kafka_topic_name='trades',
     kraken_api=api,)
-    '''
+    """

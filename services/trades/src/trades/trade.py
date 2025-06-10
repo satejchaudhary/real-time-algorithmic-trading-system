@@ -20,7 +20,7 @@ class Trade(BaseModel):
         Example: "2025-04-24T11:35:42.856851Z"
         """
         dt = datetime.datetime.fromtimestamp(timestamp_sec, tz=datetime.timezone.utc)
-        return dt.isoformat().replace('+00:00', 'Z')
+        return dt.isoformat().replace("+00:00", "Z")
 
     @staticmethod
     def iso_format_to_unix_seconds(iso_format: str) -> float:
@@ -37,7 +37,7 @@ class Trade(BaseModel):
         price: float,
         quantity: float,
         timestamp: str,
-    ) -> 'Trade':
+    ) -> "Trade":
         """
         Create a Trade object from the Kraken websocket response
         """
@@ -56,7 +56,7 @@ class Trade(BaseModel):
         price: float,
         quantity: float,
         timestamp_sec: float,
-    ) -> 'Trade':
+    ) -> "Trade":
         """
         Create a Trade object from the Kraken REST API response
         """
