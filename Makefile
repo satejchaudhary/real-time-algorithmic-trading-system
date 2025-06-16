@@ -1,8 +1,8 @@
 dev:
-	uv run services/trades/src/trades/main.py
+	uv run services/${service}/src/${service}/main.py
 
 build:
-	docker build -t trades:dev -f docker/trades_multistage.Dockerfile .
+	docker build -t ${service}:dev -f docker/${service}_multistage.Dockerfile .
 
 
 deploy:
